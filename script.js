@@ -1,15 +1,49 @@
 const sketchContainer = document.querySelector(".sketch-area");
 const slider = document.getElementById("gridSizeSlider");
 const gridSizeDisplay = document.getElementById("size-display");
+const colorToggle = document.getElementById("color-select");
+let color = "black";
 
+//To clear grid on grid size change and reset
 function clearGrid(parent) {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild);
   }
 }
 
-function addColor() {
+//Changes colors of sketch depending on colour toggle selection
+function addColor(color) {
+  const grid = document.querySelectorAll(".sketch-area > div");
+  for (let i = grid.length - 1; i >= 0; --i) {
+    if (color === "black") {
+      grid[i].addEventListener("mouseenter", black);
+      grid[i].removeEventListener("mouseenter", random);
+    }
+    if (color === "random") {
+      grid[i].addEventListener("mouseenter", random);
+      grid[i].removeEventListener("mouseenter", black);
+    }
+  }
+}
+
+//Event Listener for Color Selection Toggle
+colorToggle.addEventListener("change", () => {
+  if (color === "black") {
+    color = "random";
+  } else {
+    color = "black";
+  }
+  addColor(color);
+});
+
+function black() {
   this.style.backgroundColor = "black";
+}
+
+function random() {
+  this.style.backgroundColor = `#${Math.floor(
+    Math.random() * 16777215
+  ).toString(16)}`;
 }
 
 const createGrid = (gridSize) => {
@@ -21,7 +55,7 @@ const createGrid = (gridSize) => {
     square.style.width = `${1000 / gridSize}px`;
     square.style.height = `${1000 / gridSize}px`;
     sketchContainer.appendChild(square);
-    square.addEventListener("mouseenter", addColor);
+    square.addEventListener("mouseenter", black);
   }
 };
 
