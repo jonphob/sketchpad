@@ -11,7 +11,7 @@ function clearGrid(parent) {
   }
 }
 
-//Changes colors of sketch depending on colour toggle selection
+//Changes colors of sketch depending on colour toggle selection, done backwards as node list updated in real time
 function addColor(color) {
   const grid = document.querySelectorAll(".sketch-area > div");
   for (let i = grid.length - 1; i >= 0; --i) {
@@ -28,11 +28,7 @@ function addColor(color) {
 
 //Event Listener for Color Selection Toggle
 colorToggle.addEventListener("change", () => {
-  if (color === "black") {
-    color = "random";
-  } else {
-    color = "black";
-  }
+  color === "black" ? (color = "random") : (color = "black");
   addColor(color);
 });
 
@@ -55,17 +51,19 @@ const createGrid = (gridSize) => {
     square.style.width = `${1000 / gridSize}px`;
     square.style.height = `${1000 / gridSize}px`;
     sketchContainer.appendChild(square);
-    square.addEventListener("mouseenter", black);
+    if (color === "black") {
+      square.addEventListener("mouseenter", black);
+    } else {
+      square.addEventListener("mouseenter", random);
+    }
   }
 };
-
-gridSizeDisplay.innerText = `${slider.value} x ${slider.value}`;
 
 slider.addEventListener("input", (e) => {
   clearGrid(sketchContainer);
   createGrid(e.target.value);
-
   gridSizeDisplay.innerText = `${e.target.value} x ${e.target.value}`;
 });
 
-createGrid(50);
+gridSizeDisplay.innerText = `${slider.value} x ${slider.value}`;
+createGrid(32);
