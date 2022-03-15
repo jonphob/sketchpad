@@ -2,6 +2,7 @@ const sketchContainer = document.querySelector(".sketch-area");
 const slider = document.getElementById("gridSizeSlider");
 const gridSizeDisplay = document.getElementById("size-display");
 const colorToggle = document.getElementById("color-select");
+const reset = document.querySelector(".btn-reset");
 let color = "black";
 
 //To clear grid on grid size change and reset
@@ -59,11 +60,18 @@ const createGrid = (gridSize) => {
   }
 };
 
+const resetGrid = () => {
+  clearGrid(sketchContainer);
+  createGrid(32);
+};
+
 slider.addEventListener("input", (e) => {
   clearGrid(sketchContainer);
   createGrid(e.target.value);
   gridSizeDisplay.innerText = `${e.target.value} x ${e.target.value}`;
 });
+
+reset.addEventListener("click", resetGrid);
 
 gridSizeDisplay.innerText = `${slider.value} x ${slider.value}`;
 createGrid(32);
