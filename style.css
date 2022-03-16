@@ -120,6 +120,7 @@ h1 {
 /* SLIDER */
 .grid-size-select {
   width: 100%; /* Width of the outside container */
+  margin-bottom: 200px;
 }
 
 label {
